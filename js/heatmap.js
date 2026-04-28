@@ -1,41 +1,35 @@
+// --- Basic Map Setup ---
 let map = L.map('map').setView([58.373523, 26.716045], 12)
+
+// --- Raster Tile Layer ---
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
-  attribution: 'OpenStreetMap contributors',
+  attribution: 'OpenStreetMap contributors'
 })
-
 osm.addTo(map)
 
-// add geoJSON polygons layer*
-async function addDistrictsGeoJson(url) {
-  const response = await fetch(url)
-  const data = await response.json()
-  const polygons = L.geoJson(data)
-  polygons.addTo(map)
-}
-addDistrictsGeoJson('geojson/tartu_city_districts_edu.geojson')
-
-// add geoJSON points layer*
+// --- Vector Layer: Tartu City Cell Towers ---
 async function addCelltowersGeoJson(url) {
   const response = await fetch(url)
   const data = await response.json()
-  const markers = L.geoJson(data)
-  markers.addTo(map)
+
+  const towers = L.geoJson(data, {
+    pointToLayer: (feature, latlng) =>
+      L.circleMarker(latlng, {
+        radius: 5,
+        fillColor: 'red',
+        fillOpacity: 0.6,
+        color: 'red',
+        weight: 1
+      })
+  })
+
+  towers.addTo(map)
 }
+
 addCelltowersGeoJson('geojson/tartu_city_celltowers_edu.geojson')
 
-// default map settings
+// --- defaultMapSettings Function ---
 function defaultMapSettings() {
   map.setView([58.373523, 26.716045], 12)
 }
-
-// add geoJSON layer
-async function addGeoJson(url) {
-  const response = await fetch(url)
-  const data = await response.json()
-  console.log(data.features[0])
-}
-addGeoJson('geojson/tartu_city_celltowers_edu.geojson')
-
-console.log(data.features[0].geometry.coordinates)
-console.log(data.features[0].properties.area)
