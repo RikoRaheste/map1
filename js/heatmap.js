@@ -13,7 +13,7 @@ async function addDistrictsGeoJson(url) {
   const polygons = L.geoJson(data)
   polygons.addTo(map)
 }
-addDistrictsGeoJson('tartu_city_districts_edu.geojson')
+addDistrictsGeoJson('geojson/tartu_city_districts_edu.geojson')
 
 // add geoJSON points layer*
 async function addCelltowersGeoJson(url) {
@@ -22,14 +22,14 @@ async function addCelltowersGeoJson(url) {
   const markers = L.geoJson(data)
   markers.addTo(map)
 }
-addCelltowersGeoJson('tartu_city_celltowers_edu.geojson')
+addCelltowersGeoJson('geojson/tartu_city_celltowers_edu.geojson')
 
 // default map settings
 function defaultMapSettings() {
   map.setView([58.373523, 26.716045], 12)
 }
 
-addGeoJson('tartu_city_celltowers_edu.geojson')
+addGeoJson('geojson/tartu_city_celltowers_edu.geojson')
 
 // add geoJSON layer
 async function addGeoJson(url) {
